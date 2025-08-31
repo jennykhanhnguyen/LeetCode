@@ -23,9 +23,9 @@ class Solution:
                 for i in range (9):
                     newr = r + dr[i]
                     newc = c + dc[i]
-                    if board[r][c] != '.': 
-                        if board[r][c] in seen:
+                    if board[newr][newc] != '.': 
+                        if board[newr][newc] in seen:
                             return False
-                        seenr.add(board[r][c])
+                        seen.add(board[newr][newc])
         return True
 
