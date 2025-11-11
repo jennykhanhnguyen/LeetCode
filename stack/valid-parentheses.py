@@ -1,21 +1,17 @@
-class Solution(object):
-    def isValid(self, s):
-        """
-        :type s: str
-        :rtype: bool
-        """
-        brackets = []
-        pairs = {
-            ')':'(',
-            '}':'{',
-            ']':'['
+class Solution:
+    def isValid(self, s: str) -> bool:
+        hm = {
+            '(':')',
+            '{':'}',
+            '[':']'
         }
+        stack = []
         for char in s:
-            if char not in pairs: # open
-                brackets.append(char)
-            elif not brackets or brackets[-1] != pairs[char]: # close and not found matching brackets
+            if char in hm:
+                stack.append(hm[char])
+            elif len(stack) != 0 and char == stack[-1]:
+                stack.pop()
+            else: 
                 return False
-            else: # close and found matching brackets
-                brackets.pop()
-
-        return len(brackets) == 0
+        return len(stack) == 0
+    
