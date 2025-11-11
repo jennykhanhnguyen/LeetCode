@@ -22,7 +22,6 @@ class Solution:
                 summ += nums[j]
             if summ not in dic:
                 dic[summ] = 0
-            
             if summ - k in dic:
                 res += dic[summ - k]
             dic[summ] += 1
