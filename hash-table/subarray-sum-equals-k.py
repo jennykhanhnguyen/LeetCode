@@ -16,10 +16,9 @@ class Solution:
         #             if pref[j] - pref[i-1] == k:
         #                 res += 1
         dic = {0:1}
-        summ = nums[0]
+        summ = 0
         for j in range(0, len(nums)):
-            if j != 0:
-                summ += nums[j]
+            summ += nums[j]
             if summ not in dic:
                 dic[summ] = 0
             if summ - k in dic:
