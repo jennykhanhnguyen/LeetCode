@@ -17,9 +17,6 @@ class Solution:
         #                 res += 1
         dic = {0:1}
         for j in range(0, len(nums)):
-            print(pref[j] - k)
-            print(dic)
-
             if pref[j] not in dic:
                 dic[pref[j]] = 0
             
