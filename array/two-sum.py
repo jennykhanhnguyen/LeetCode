@@ -1,14 +1,8 @@
-class Solution(object):
-    def twoSum(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        # 1 pass hashmap
-        hash = {}
-        for i, num in enumerate(nums): 
-            if (target - num) in hash:
-                return [hash[target - num], i]
-            hash[num] = i
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        hm = {}
+        for i in range(len(nums)): 
+            if (target - nums[i]) in hm:
+                return [hm[target - nums[i]], i]
+            hm[nums[i]] = i
         return []
