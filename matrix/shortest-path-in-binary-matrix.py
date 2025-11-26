@@ -8,7 +8,7 @@ class Solution:
             return 1
         elif grid[0][0] != 0 or grid[n-1][n-1] != 0:
             return -1
-        print('a')
+        # print('a')
         visited = [[0]*n]*n
         queue = deque()
         queue.append((0,0))
