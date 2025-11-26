@@ -4,6 +4,8 @@ class Solution:
         n = len(grid)
 
         # edge case
+        if grid[0][0] == 0 and n == 1:
+            return 1
         if grid[0][0] != 0 or grid[n-1][n-1] != 0:
             return -1
         
