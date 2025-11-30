@@ -1,24 +1,20 @@
-import re
-class Solution(object):
-    def decodeString(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        pattern1 = r"(\d+)\[([a-z]+)\]"
+class Solution:
+    def decodeString(self, s: str) -> str:
+        prefix, k = "", 0
+        stack = []
 
-        if '[' not in s:
-            return s
+        for ch in s:
+            if ch.isdigit():
+                k = k * 10 + int(ch)
+            elif ch == "[":
+                stack.append((prefix, k))
+                k = 0
+                prefix = ""
+            elif ch.isalpha():
+                prefix += ch
+            elif ch == "]":
+                prev_prefix, prev_k = stack.pop()
+                prefix = prev_prefix + prev_k * prefix
+            print(k,stack,prefix)
 
-        # 3[abc]
-        match1 = re.search(pattern1, s)
-        if match1:
-            num = int(match1.group(1)) # 3
-            text = match1.group(2) # "abc
-            decoded = num * text # "abcabcabc"
-            
-            new_s = s[:match1.start()] + decoded + s[match1.end():]
-            return self.decodeString(new_s)
-
-
-        return s
+        return prefix
