@@ -13,7 +13,7 @@ class Solution(object):
         :type head: Node
         :rtype: Node
         """
-        if head == None:
+        if not head:
             return None
         dic = {}
         dummy = Node(head.val) # dummy = copy
