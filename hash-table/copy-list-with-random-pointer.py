@@ -13,6 +13,8 @@ class Solution(object):
         :type head: Node
         :rtype: Node
         """
+        if head == None:
+            return None
         dic = {}
         dummy = Node(head.val) # dummy = copy
         temp = dummy           # temp = copy traversal
