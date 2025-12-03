@@ -30,14 +30,9 @@ class Solution(object):
                 temp.next = None
             temp = temp.next
             cur = cur.next
-        temp = dummy
-        cur = head
-        while cur:
-            if cur.random:
-                temp.random = dic[cur.random]
-            else:
-                temp.random = None
-            temp = temp.next
-            cur = cur.next
+        for current in dic :
+            if not current.random : 
+                continue
+            dic[current].random = dic[current.random]
 
         return dummy
