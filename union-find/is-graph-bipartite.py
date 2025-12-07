@@ -30,5 +30,5 @@ class Solution:
                                     queue.append(graph[node][z])
                                     red.add(graph[node][z])
                                     # visited[graph[node][z]] = 1
-        print(red, blue)
+        # print(red, blue)
         return True
