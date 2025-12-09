@@ -10,6 +10,8 @@ class Solution:
         queue = deque()
         queue.append(root)
         lv = 0
+        if not root:
+            return 0
         while queue:
             lv += 1
             size = len(queue)
