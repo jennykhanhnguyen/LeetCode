@@ -15,7 +15,7 @@ class Solution:
             if node == n:
                 nonlocal minans
                 minans = min (minans, minval)
-            print(path, minans, visited)
+            # print(path, minans, visited)
             for nei,weight in adj[node]:
                 minval = min(weight, minval)
                 if visited[nei] == 0:
@@ -24,5 +24,5 @@ class Solution:
                     dfs(nei, minval)   
                     visited[nei] = 0        
                     path.pop()
-        dfs(1,9999999) 
+        dfs(1,999999999999) 
         return minans
