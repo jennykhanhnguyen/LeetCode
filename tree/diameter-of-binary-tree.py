@@ -11,6 +11,8 @@ class Solution:
         graph = {}
         if not root:
             return 0
+        if not root.left and not root.right:
+            return 0
         level = {}
         queue = deque()
         queue.append(root)
