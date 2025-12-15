@@ -43,29 +43,45 @@ class Solution:
                     graph[node.right].append(node)
         # lv = level of the deepest leaf
         for address, val in level.items():
-            if len(graph[address]) == 1:
-                start = address
-                break
-        for address, val in level.items():
             if len(graph[address]) == 1 and level[address] == lv:
                 end = address
 
-        # dfs to calculate the longest diameter
+        # bfs to calculate the longest diameter
         visited = set()
+        res = -1
+        queue.append(end)
+        visited.add(end)
+        while queue:
+            size = len(queue)
+            res += 1
+            for i in range(size):
+                address = queue.popleft()
+                for nei in graph[address]:
+                    if nei not in visited:
+                        visited.add(nei)
+                        queue.append(nei)
 
-        maxres = 0
-        def dfs(address, res):  
-            nonlocal maxres        
-            maxres = max(res, maxres)
-            # print(maxres)
-            if address == end:
-                return
-            for nei in graph[address]:
-                if nei not in visited:
-                    visited.add(nei)
-                    dfs(nei, res+1)
-                    visited.remove(nei) 
-        dfs(start, 0)
-        return maxres
 
+        return res
+
+
+
+
+        # for address, val in level.items():
+        #     if len(graph[address]) == 1:
+        #         start = address
+        #         break
+
+        # def dfs(address, res):  
+        #     nonlocal maxres        
+        #     maxres = max(res, maxres)
+        #     # print(maxres)
+        #     if address == end:
+        #         return
+        #     for nei in graph[address]:
+        #         if nei not in visited:
+        #             visited.add(nei)
+        #             dfs(nei, res+1)
+        #             visited.remove(nei) 
+        # dfs(start, 0)
 
