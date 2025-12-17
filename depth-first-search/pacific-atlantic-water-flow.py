@@ -9,9 +9,9 @@ class Solution:
             pacific_heads.append((0,i))
         for j in range(1,m):
             pacific_heads.append((j,0))
-        for i in range(0,m-1): 
+        for i in range(0,n-1): 
             atlantic_heads.append((m-1, i)) 
-        for j in range(n):             
+        for j in range(m):             
             atlantic_heads.append((j, n-1))  
         # bfs 
         dirx = [-1, 0, 0, 1]
@@ -27,9 +27,16 @@ class Solution:
                     for j in range(4):
                         newx = curx + dirx[j]
                         newy = cury + diry[j]
-                        if newx >= 0 and newx <= m-1 and newy >= 0 and newy <= n-1 and (newx, newy) not in visited and heights[newx][newy] >= heights[curx][cury]:
-                            visited[(newx, newy)] = 1
-                            queue.append((newx,newy))
+                        if newx < 0 or newx > m-1:
+                            continue
+                        if newy < 0 or newy > n-1: 
+                            continue
+                        if (newx, newy) in visited:
+                            continue
+                        if heights[newx][newy] < heights[curx][cury]:
+                            continue
+                        visited[(newx, newy)] = 1
+                        queue.append((newx,newy))
             return lstres
         pacific_res = bfs(pacific_heads)
         atlantic_res = bfs(atlantic_heads)
