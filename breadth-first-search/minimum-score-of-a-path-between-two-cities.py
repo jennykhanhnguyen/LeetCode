@@ -12,18 +12,27 @@ class Solution:
             adj[right].append((left, weight))
         res = float("inf")
         visited = set()
-        def dfs(node, val):
+        def dfs(node):
             nonlocal res
-            if node == n:
-                res = min(res, val)
-                return
             for nei, wei in adj[node]:
+                res = min(res, wei)
                 if nei not in visited:
                     visited.add(nei)
-                    newwei = min(val, wei)
-                    dfs(nei, newwei)
-                    visited.remove(nei)
-        dfs(1, float("inf"))
+                    dfs(nei)
+
+        # visited = set()
+        # def dfs(node, val):
+        #     nonlocal res
+        #     if node == n:
+        #         res = min(res, val)
+        #         return
+        #     for nei, wei in adj[node]:
+        #         if nei not in visited:
+        #             visited.add(nei)
+        #             newwei = min(val, wei)
+        #             dfs(nei, newwei)
+                    # visited.remove(nei)
+        dfs(1)
         return res
 
                 
