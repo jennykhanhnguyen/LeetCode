@@ -1,28 +1,29 @@
+from collections import defaultdict
 class Solution:
     def minScore(self, n: int, roads: List[List[int]]) -> int:
-        adj = []
-        for i in range (n+1):
-            adj.append([])
+        """
+        :type n: int
+        :type roads: List[List[int]]
+        :rtype: int
+        """
+        adj = defaultdict(list)
         for left, right, weight in roads:
-            adj[left].append((right,weight))
-            adj[right].append((left,weight))
-        visited = [0]*(n+1)
-        visited[1] = 1
-        path = [1]
-        minans = 999999999999
-        # print(adj)
-        def dfs(node, minval):
+            adj[left].append((right, weight))
+            adj[right].append((left, weight))
+        res = float("inf")
+        visited = set()
+        def dfs(node, val):
+            nonlocal res
             if node == n:
-                nonlocal minans
-                minans = min (minans, minval)
-            # print(path, minans, visited)
-            for nei,weight in adj[node]:
-                minval = min(weight, minval)
-                if visited[nei] == 0:
-                    visited[nei] = 1
-                    path.append((nei,weight))
-                    dfs(nei, minval)   
-                    visited[nei] = 0        
-                    path.pop()
-        dfs(1,999999999999) 
-        return minans
+                res = min(res, val)
+                return
+            for nei, wei in adj[node]:
+                if nei not in visited:
+                    visited.add(nei)
+                    newwei = min(val, wei)
+                    dfs(nei, newwei)
+                    visited.remove(nei)
+        dfs(1, float("inf"))
+        return res
+
+                
