@@ -1,85 +1,62 @@
-from collections import defaultdict
+from collections import defaultdict, deque
 
-class DSU:
-    def __init__(self):
-        # parent[email] = the "representative" email of its group
-        self.parent = {}
+class Solution(object):
+    def accountsMerge(self, accounts):
+        """
+        :type accounts: List[List[str]]
+        :rtype: List[List[str]]
+        """
+        graph = defaultdict(set)
+        email_to_name = {}
 
-        # rank[email] = a small number that helps keep the tree shallow
-        # (shallow tree => faster find)
-        self.rank = {}
+        # 1) Build the graph
+        for acc in accounts:
+            name = acc[0]
+            emails = acc[1:]
 
-    def add(self, x: str) -> None:
-        # If x is new, initialize it as its own parent (a new group)
-        if x not in self.parent:
-            self.parent[x] = x           # parent of itself => root of its own set
-            self.rank[x] = 0             # start rank at 0
+            # # If an account has no email (rare in LC), skip
+            # if not emails:
+            #     continue
 
-    def find(self, x: str) -> str:
-        # Find the root (leader) of x's group
-        if self.parent[x] != x:
-            # Path compression:
-            # rewrite parent[x] to point directly to the root
-            self.parent[x] = self.find(self.parent[x])
-        return self.parent[x]            # return the root
+            # Record name for each email
+            for e in emails:
+                email_to_name[e] = name
 
-    def union(self, a: str, b: str) -> None:
-        # Merge the groups that contain a and b
-        ra = self.find(a)                # root of a
-        rb = self.find(b)                # root of b
+            # Connect all emails in this account together
+            first = emails[0]
+            for e in emails[1:]:
+                graph[first].add(e)
+                graph[e].add(first)
 
-        # If same root, already in same group, nothing to do
-        if ra == rb:
-            return
+            # Ensure the "first" email is in graph even if it had no edges
+            # (important for accounts with only 1 email)
+            _ = graph[first]
 
-        # Union by rank:
-        # attach the smaller-rank tree under the bigger-rank tree
-        if self.rank[ra] < self.rank[rb]:
-            self.parent[ra] = rb         # ra group attaches under rb
-        elif self.rank[ra] > self.rank[rb]:
-            self.parent[rb] = ra         # rb group attaches under ra
-        else:
-            # same rank: pick one to be parent, then increase its rank
-            self.parent[rb] = ra         # rb attaches under ra
-            self.rank[ra] += 1           # ra tree got taller by 1
+        # 2) BFS to find connected components of emails
+        visited = set()
+        res = []
 
+        for email in graph:
+            if email in visited:
+                continue
 
-class Solution:
-    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
-        dsu = DSU()                       # create DSU structure
-        email_to_name = {}                # map each email -> its owner's name
+            # Start BFS for this component
+            q = deque([email])
+            visited.add(email)
+            component_emails = []
 
-        # 1) Build DSU connections
-        for acc in accounts:              # each account like: [name, e1, e2, e3...]
-            name = acc[0]                 # person's name
-            first_email = acc[1]          # use the first email as the "anchor" for this account
+            while q:
+                cur = q.popleft()
+                component_emails.append(cur)
 
-            dsu.add(first_email)          # make sure first_email exists in DSU
-            email_to_name[first_email] = name  # remember name for this email
+                for nei in graph[cur]:
+                    if nei not in visited:
+                        visited.add(nei)
+                        q.append(nei)
 
-            # connect every other email in this account with first_email
-            for i in range(2, len(acc)):  # start from the second email (index 2)
-                email = acc[i]            # current email
+            # 3) Format output: [name] + sorted emails
+            component_emails.sort()
+            name = email_to_name[email]  # any email in component works
+            res.append([name] + component_emails)
 
-                dsu.add(email)            # ensure email exists in DSU
-                email_to_name[email] = name  # map email to the name (same person)
-
-                # union: put email and first_email in the same connected component
-                dsu.union(first_email, email)
-
-        # 2) Group emails by their DSU root
-        groups = defaultdict(list)        # root_email -> list of emails in that group
-
-        for email in email_to_name:       # iterate over all emails we have seen
-            root = dsu.find(email)        # find the representative root
-            groups[root].append(email)    # put this email into that root's bucket
-
-        # 3) Build final merged answer
-        result = []                       # will store merged accounts
-
-        for root, emails in groups.items():
-            emails.sort()                 # required: emails sorted lexicographically
-            name = email_to_name[root]    # use root's email to get the person's name
-            result.append([name] + emails)  # merged account format: [name, sorted_emails...]
-
-        return result
+        return res
