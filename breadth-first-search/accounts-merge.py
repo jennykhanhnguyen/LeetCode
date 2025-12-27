@@ -14,10 +14,6 @@ class Solution(object):
             name = acc[0]
             emails = acc[1:]
 
-            # # If an account has no email (rare in LC), skip
-            # if not emails:
-            #     continue
-
             # Record name for each email
             for e in emails:
                 email_to_name[e] = name
@@ -28,9 +24,9 @@ class Solution(object):
                 graph[first].add(e)
                 graph[e].add(first)
 
-            # Ensure the "first" email is in graph even if it had no edges
-            # (important for accounts with only 1 email)
-            _ = graph[first]
+            if first not in graph:
+                graph[first] = set()
+
 
         # 2) BFS to find connected components of emails
         visited = set()
