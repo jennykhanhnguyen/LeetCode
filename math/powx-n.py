@@ -6,7 +6,7 @@ class Solution(object):
         :rtype: float
         """
       
-        def quick_power(base: float, exponent: int) -> float:
+        def quick_power(base, exponent):
             """
             Helper function to calculate base^exponent using binary exponentiation.
             Only handles non-negative exponents.
