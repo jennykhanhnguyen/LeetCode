@@ -18,7 +18,7 @@ class Solution(object):
         ans = []
         while queue:
             size = len(queue)
-            maxval = -1
+            maxval = float('-inf')
             for i in range(size):
                 node = queue.popleft()
                 maxval = max(maxval, node.val)
