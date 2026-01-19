@@ -11,6 +11,8 @@ class Solution(object):
         :type root: Optional[TreeNode]
         :rtype: List[int]
         """
+        if not root:
+            return []
         queue = deque()
         queue.append(root)
         ans = []
