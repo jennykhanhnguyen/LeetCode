@@ -1,31 +1,29 @@
-import queue
-
-class Solution:
-    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        q = queue.Queue()
-        arr = [[] for i in range(numCourses)]
-        
-        degree = [0]*(numCourses)
-        for l,r in prerequisites:
-            degree[l] += 1
-            arr[r].append(l)
-
-        for i,val in enumerate(degree):
-            if val == 0:
-                q.put(i)
-
-        topo = []
-        while q.qsize() > 0:
-            u = q.get()
-            for r in arr[u]:
-                    degree[r] -= 1
-                    if degree[r] == 0:
-                        q.put(r)
-            topo.append(u)
-        
-        if len(topo) != numCourses:
-            return []
-        return topo
-            
-
+class Solution(object):
+    def findOrder(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: List[int]
+        """
+        # Compute indegrees
+        # Add all nodes with indegree 0 into the queue
+        # BFS
+        path = []
+        indegree = [0]*numCourses
+        queue = deque()
+        graph = defaultdict(list)
+        for left, right in prerequisites:
+            indegree[right] += 1
+            graph[left].append(right)
+        for ind, node in enumerate(indegree):
+            if node == 0:
+                queue.append(ind)
+        while queue:
+            node = queue.popleft()
+            path.append(node)
+            for nei in graph[node]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    queue.append(nei)
+        return path[::-1]
 
