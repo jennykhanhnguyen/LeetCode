@@ -25,5 +25,7 @@ class Solution(object):
                 indegree[nei] -= 1
                 if indegree[nei] == 0:
                     queue.append(nei)
+        if len(path) != numCourses:
+            return []
         return path[::-1]
 
