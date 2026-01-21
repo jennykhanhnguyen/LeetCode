@@ -7,14 +7,10 @@ class Solution(object):
         :type queries: List[List[int]]
         :rtype: List[bool]
         """
-        # build graph
-        # make a list of dictionary
-        # topo sort on graph to update the global list
-        # look up
-        ans = []
-        empty_dct = []
+        hm = []
         for i in range(100):
-            empty_dct.append(set())
+            hm.append([0]*100)
+        ans = []
         indegree = [0]*numCourses
         queue = deque()
         graph = defaultdict(list)
@@ -27,12 +23,15 @@ class Solution(object):
         while queue:
             node = queue.popleft()
             for nei in graph[node]:
-                empty_dct[nei].add(node)
+                for i in range(numCourses):
+                    if hm[i][node] == 1:
+                        hm[i][nei] = 1
+                hm[node][nei] = 1
                 indegree[nei] -= 1
                 if indegree[nei] == 0:
                     queue.append(nei)
         for left, right in queries:
-            if left in empty_dct[right]:
+            if hm[left][right] == 1:
                 ans.append(True)
             else:
                 ans.append(False)
