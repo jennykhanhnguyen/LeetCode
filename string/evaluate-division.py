@@ -1,33 +1,45 @@
-from collections import defaultdict
-class Solution(object):
-    def calcEquation(self, equations, values, queries):
-        """
-        :type equations: List[List[str]]
-        :type values: List[float]
-        :type queries: List[List[str]]
-        :rtype: List[float]
-        """
-        graph = defaultdict(list)
-        for i in range(len(equations)): # a/b = 2.5 --> a = 2.5b
-            graph[equations[i][0]].append((equations[i][1], values[i]))
-            graph[equations[i][1]].append((equations[i][0], 1.0/values[i]))
-        visited = set()
-        def dfs(abv,blw, val):
-            if abv == blw:
-                return val
-            for nei,wei in graph[abv]:
-                if nei not in visited:
-                    visited.add(nei)
-                    res = dfs(nei, blw, val*wei)
-                    if res != -1.0:
-                        return res
-            return -1.0
+from collections import defaultdict, deque
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        # graph
+        # bfs + dsu --> connected component
+        # look up 
         ans = []
+        graph = defaultdict(list)
+        for index, tpl in enumerate(equations):
+            graph[tpl[0]].append((tpl[1], float(1.0/values[index]))) # tuple: right, edge_val
+            graph[tpl[1]].append((tpl[0], values[index]))
+        visited = set()
+        comp = {}
+        dct = {}
+        def bfs(node):
+            queue = deque()
+            queue.append(node)
+            visited.add(node)
+            comp[node] = node
+            dct[node] = 1
+            while queue:
+                size = len(queue)
+                for i in range(size):
+                    top = queue.popleft()
+                    for nei,wei in graph[top]:
+                        if nei not in visited:
+                            comp[nei] = node
+                            dct[nei] = wei*dct[top]
+                            visited.add(nei)
+                            queue.append(nei)
+        for key, val in graph.items():
+            if key not in visited:
+                bfs(key)
+        print(comp)
         for left, right in queries:
-            if left not in graph or right not in graph:
+            if left not in comp or right not in comp or comp[left] != comp[right]:
                 ans.append(-1.0)
             else:
-                visited = set([left])
-                ans.append(dfs(left,right,1))
-
+                ans.append(dct[left]/dct[right])
+                
         return ans
+
+
+            
+
