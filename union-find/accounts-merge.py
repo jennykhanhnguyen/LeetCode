@@ -28,7 +28,10 @@ class Solution(object):
         name = defaultdict(str)
         for i, lsti in enumerate(accounts):
             for k in range(1,len(lsti)):
-                rep[accounts[i][k]] = accounts[i][1]
+                if accounts[i][k] not in rep:
+                    rep[accounts[i][k]] = accounts[i][1]
+                else:
+                    rep[accounts[i][k]] = find(accounts[i][1])
                 size[accounts[i][k]] = 1
                 name[accounts[i][k]] = accounts[i][0]
 
@@ -66,7 +69,7 @@ class Solution(object):
         # print(rep)
         # print(ans)
         # print(anslst)
-        
+        anslst.sort()
         return anslst
                 
 
