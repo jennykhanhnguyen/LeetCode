@@ -13,6 +13,8 @@ class Solution(object):
         :type q: TreeNode
         :rtype: TreeNode
         """
+        if p.val > q.val:
+            p,q = q,p
         if not root.left or not root.right:
             print(root)
             return root
