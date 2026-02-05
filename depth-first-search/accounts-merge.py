@@ -25,53 +25,47 @@ class Solution(object):
                     size[v] += size[u]
         rep = defaultdict(str)
         size = defaultdict(int)
-        name = defaultdict(str)
         for i, lsti in enumerate(accounts):
             for k in range(1,len(lsti)):
-                if accounts[i][k] not in rep:
-                    rep[accounts[i][k]] = accounts[i][1]
-                else:
-                    rep[accounts[i][k]] = find(accounts[i][1])
-                size[accounts[i][k]] = 1
-                name[accounts[i][k]] = accounts[i][0]
+                rep[i] = i
+                size[i] = 1
 
         # print(rep)
 
         # set for each list
         for i, lsti in enumerate(accounts):
             if i+1 <= len(accounts):
-                for lstj in accounts[i+1:]:
+                for j in range(i+1, len(accounts)):
+                    lstj = accounts[j]
+                    # print(i,j)
                     if lsti[0] == lstj[0]:
                         # print(lsti,lstj)
                         setlstj = set(lstj[1:])
                         # print(setlstj)
                         for k in range(1, len(lsti)):
                             if lsti[k] in setlstj:
-                                elmt = setlstj.pop()
-                                while lsti[k] == elmt:
-                                    elmt = setlstj.pop()    
-                                # print(lsti[k], elmt)                    
-                                combine(lsti[k], elmt)
-
-        ans = defaultdict(list)
-        anslst = []
-        for key, val in rep.items(): # key: email, val: rep
-            ans[find(key)].append(key)
-
-        for key, vallst in ans.items():
-            k = name[key]
-            each = []           
-            for item in vallst:
-                each.append(item)
-            each.sort()
-            each = [k]+each
-            anslst.append(each)
+                                # elmt = setlstj.pop()
+                                # while lsti[k] == elmt:
+                                #     elmt = setlstj.pop()   
+                                # print(lsti[k], setlstj)
+                                # print(rep[lsti[k]], j)                  
+                                combine(i, j)
         # print(rep)
-        # print(ans)
-        # print(anslst)
-        anslst.sort()
-        return anslst
+
+        ans = defaultdict(set)
+        for key, val in rep.items():
+            temp = accounts[key][1:]
+            for i in range(len(temp)):
+                ans[find(val)].add(temp[i])
+
+        finalans = []
+        for key, val in ans.items(): # key: index of parent, val: set of emails
+            temp = list(val)
+            temp.sort()
+            name = [accounts[key][0]]
+            adding = name + temp 
+            finalans.append(adding)
+            finalans.sort()
+        return finalans
+        # return []
                 
-
-
-        
