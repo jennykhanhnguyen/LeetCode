@@ -33,11 +33,13 @@ class Solution(object):
                     size[v] += size[u]
         for ind, tple in enumerate(edges):
             combine(tple[0], tple[1])
-        for ind, parent in enumerate(rep):
-            find(parent)
+        # print(rep,size)
+       
+        for node in range(n): # order matters in dsu
+            find(node)
+
         set_rep = set(rep)
-        # print(set_rep,size)
-        # return 0
+        # print(rep,size)
         ans = 0
         cnt_edge = defaultdict(int)
         for left, right in edges:
