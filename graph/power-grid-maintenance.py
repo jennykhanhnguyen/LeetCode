@@ -59,7 +59,7 @@ class Solution(object):
                     ans.append(right)
                 else:
                     if len(dsu[rep[right]]) == 0:
-                        print(dsu)
+                        # print(dsu)
                         ans.append(-1)
                     else:
                         ans.append(dsu[rep[right]][0])
