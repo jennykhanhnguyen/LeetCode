@@ -46,8 +46,8 @@ class Solution(object):
 
         for ind, station in enumerate(rep):
             heapq.heappush(dsu[find(ind)],ind)
+
         # print(dsu)
-        # return []
 
         for ind,tple in enumerate(queries):
             left = tple[0]
@@ -57,13 +57,15 @@ class Solution(object):
                     ans.append(right)
                 else:
                     if len(dsu[rep[right]]) == 0:
+                        print(dsu)
                         ans.append(-1)
                     else:
                         ans.append(dsu[rep[right]][0])
             elif left == 2:
-                if len(dsu[find(right)]) != 0:
-                    heapq.heappop(dsu[find(right)])
                 status[right] = 0
+                if len(dsu[find(right)]) != 0 and status[dsu[find(right)][0]] == 0:
+                    heapq.heappop(dsu[find(right)])
+                
 
         return ans
 
