@@ -10,7 +10,7 @@ class Solution(object):
         dirr = [-1,0,0,1]
         diry = [0,-1,1,0]
         for row in range(len(grid)):
-            for col in range(len(grid)):
+            for col in range(len(grid[0])):
                 if grid[row][col] == 1:
                     fresh += 1
                 elif grid[row][col] == 2:
@@ -25,7 +25,7 @@ class Solution(object):
                 for j in range(4):
                     newr = row + dirr[j]
                     newc = col + diry[j]
-                    if newr >= 0 and newr <= len(grid)-1 and newc >= 0 and newc <= len(grid)-1:
+                    if newr >= 0 and newr <= len(grid)-1 and newc >= 0 and newc <= len(grid[0])-1:
                         if grid[newr][newc] == 1:
                             fresh -= 1
                             grid[newr][newc] = 2
