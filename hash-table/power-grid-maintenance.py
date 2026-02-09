@@ -61,7 +61,8 @@ class Solution(object):
                     else:
                         ans.append(dsu[rep[right]][0])
             elif left == 2:
-                heapq.heappop(dsu[find(right)])
+                if len(dsu[find(right)]) != 0:
+                    heapq.heappop(dsu[find(right)])
                 status[right] = 0
 
         return ans
