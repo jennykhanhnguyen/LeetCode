@@ -52,6 +52,8 @@ class Solution(object):
         for ind,tple in enumerate(queries):
             left = tple[0]
             right = tple[1]
+            while len(dsu[find(right)]) != 0 and status[dsu[find(right)][0]] == 0:
+                heapq.heappop(dsu[find(right)])
             if left == 1:
                 if status[right] == 1:
                     ans.append(right)
@@ -63,9 +65,6 @@ class Solution(object):
                         ans.append(dsu[rep[right]][0])
             elif left == 2:
                 status[right] = 0
-                if len(dsu[find(right)]) != 0 and status[dsu[find(right)][0]] == 0:
-                    heapq.heappop(dsu[find(right)])
-                
 
         return ans
 
