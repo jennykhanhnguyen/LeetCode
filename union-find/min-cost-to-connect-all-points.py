@@ -11,8 +11,8 @@ class Solution:
         for i in range(n):
             u = -1
             for j in range(n):
-                if not visited[j] and (u == -1 or min_dist[i] < min_dist[u]):
-                    u = i
+                if not visited[j] and (u == -1 or min_dist[j] < min_dist[u]):
+                    u = j
 
             visited[u] = True
             total_cost += min_dist[u]
