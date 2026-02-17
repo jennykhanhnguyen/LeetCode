@@ -17,4 +17,4 @@ class Solution:
                 if nei not in dist or new_dist < dist[nei]:
                     dist[nei] = new_dist
                     heapq.heappush(heap,(new_dist,nei))
-        return curr_dist if len(dist.keys()) == n else -1
+        return max(dist.values()) if len(dist.keys()) == n else -1
