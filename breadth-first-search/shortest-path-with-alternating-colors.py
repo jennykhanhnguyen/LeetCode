@@ -9,6 +9,8 @@ class Solution:
         queue = deque()
         queue.append((0, ""))
         ans = [-1]*n
+        red = [False]*n
+        blue = [False]*n
         ans[0] = 0
         level = 0
         while queue:
@@ -20,7 +22,12 @@ class Solution:
                     if color != last_color:
                         if ans[neighbor] == -1:
                             ans[neighbor] = level
-                        queue.append((neighbor, color))
+                            if color == "red":
+                                red[neighbor] = True
+                            else:
+                                blue[neighbor] = True
+                        if (red[neighbor] == False and color == "red") or (blue[neighbor] == False and color == "blue"):
+                            queue.append((neighbor, color))
         return ans
 
 
