@@ -10,7 +10,9 @@ class Solution:
         queue.append((0, ""))
         ans = [-1]*n
         red = [False]*n
+        red[0] = True
         blue = [False]*n
+        blue[0] = True
         ans[0] = 0
         level = 0
         while queue:
@@ -20,14 +22,19 @@ class Solution:
                 node, last_color = queue.popleft()
                 for neighbor, color in graph[node]:
                     if color != last_color:
+                        if color == "red":
+                            if red[neighbor]:
+                                continue
+                            red[neighbor] = True
+                        else:  
+                            if blue[neighbor]:
+                                continue
+                            blue[neighbor] = True
+
                         if ans[neighbor] == -1:
                             ans[neighbor] = level
-                            if color == "red":
-                                red[neighbor] = True
-                            else:
-                                blue[neighbor] = True
-                        if (red[neighbor] == False and color == "red") or (blue[neighbor] == False and color == "blue"):
-                            queue.append((neighbor, color))
+
+                        queue.append((neighbor, color))
         return ans
 
 
