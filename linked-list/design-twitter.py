@@ -33,7 +33,11 @@ class Twitter:
             for following_id in followees:
                 if to_break[following_id] == True:
                     continue
-                following_account = self.id_to_object[following_id] # object
+                following_account = self.id_to_object.get(following_id)
+
+                if not following_account:
+                    to_break[following_id] = True
+                    continue
                 if len(following_account.posts) == 0 or abs(index[following_id]) > len(following_account.posts):
                     to_break[following_id] = True
                     continue
