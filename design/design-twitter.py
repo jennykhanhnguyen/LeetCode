@@ -42,10 +42,7 @@ class Twitter:
                     to_break[following_id] = True
                     continue
                 weight, post_id = following_account.posts[index[following_id]]
-                if len(heap) != 0:
-                    bottom_weight, bottom_post = heap[-1]
-                    if weight < -1*bottom_weight: # break if the current is smaller than the smallest in heap
-                        to_break[following_id] = True
+
                 if to_break[following_id] == True:
                     continue
                 heapq.heappush(heap, (-1*weight, post_id))
