@@ -7,6 +7,7 @@ class Solution:
         total_price = float("inf")
         visited = set()
         visited.add(src)
+        memo = {}
         def dfs(node, price, stop):
             nonlocal total_price
             if stop > k +1:
@@ -14,6 +15,9 @@ class Solution:
             elif node == dst:
                 total_price = min(total_price, price)
                 return 
+            if (node, stop) in memo and memo[(node, stop)] <= cost:
+                return
+            memo[(node, stop)] = price
             for nei, wei in graph[node]:
                 if nei not in visited and price + wei < total_price:
                     visited.add(nei)
