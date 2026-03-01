@@ -15,7 +15,7 @@ class Solution:
             elif node == dst:
                 total_price = min(total_price, price)
                 return 
-            if (node, stop) in memo and memo[(node, stop)] <= cost:
+            if (node, stop) in memo and memo[(node, stop)] <= price:
                 return
             memo[(node, stop)] = price
             for nei, wei in graph[node]:
