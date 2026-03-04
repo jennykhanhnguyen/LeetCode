@@ -23,21 +23,28 @@ class Solution:
         for word in lst:
             current = dct.root
             root = ''
+            flag = False # flag = whether we broke from the loop
             for i in range(len(word)):
                 c = word[i]
                 root += c
                 if c in current.children:
                     if current.children[c].is_end == True:
                         ans.append(root)
+                        flag = True
                         break
                     else:
                         current = current.children[c]
                 else:
                     ans.append(word)
+                    flag = True
                     break
+            if flag == False and current.is_end == False:
+                ans.append(word)
         ans_string = " ".join(ans)
+        print(ans)
+        print(ans_string)
         return ans_string
-        
+
                 
 
 
