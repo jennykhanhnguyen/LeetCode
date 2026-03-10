@@ -6,7 +6,7 @@ class Solution:
         while left < right:
             maxx = min(height[left], height[right])*(right-left)
             maxval = max(maxx, maxval)
-            print(left, right, maxx, maxval)
+            # print(left, right, maxx, maxval)
             if height[left] >= height[right]:
                 right -= 1
             else:
