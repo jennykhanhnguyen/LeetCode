@@ -21,7 +21,7 @@ class RandomizedSet:
             numswap = self.lst[-1]
             self.lst[idrm], self.lst[-1] = self.lst[-1], self.lst[idrm]
             self.hm[numswap] = idrm
-            self.hm.pop('val', None)
+            self.hm.pop(val, None)
             self.lst.pop()
             return True
 
