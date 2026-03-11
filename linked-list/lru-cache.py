@@ -14,12 +14,13 @@ class LRUCache:
         self.dct = {}
 
     def move(self, node) -> None:
-        if node == self.tail:
+        if node == self.tail or self.head == self.tail:
             return
 
         if node == self.head:
             self.head = node.next
-            self.head.prev = None
+            if self.head:
+                self.head.prev = None
         else:
             node.prev.next = node.next
             node.next.prev = node.prev
@@ -56,16 +57,24 @@ class LRUCache:
         if self.size == self.capacity:
             old = self.head
             del self.dct[old.key]
+
             self.head = old.next
             if self.head:
                 self.head.prev = None
+            else:
+                self.tail = None
         else:
             self.size += 1
 
-        self.tail.next = node
-        node.prev = self.tail
-        self.tail = node
+        if self.tail:
+            self.tail.next = node
+            node.prev = self.tail
+        else:
+            self.head = node
 
+        node.next = None
+        self.tail = node
+        
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
