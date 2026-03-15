@@ -1,3 +1,5 @@
+# 45 min
+
 from collections import deque
 class Solution:
     def shortestBridge(self, grid: List[List[int]]) -> int:
