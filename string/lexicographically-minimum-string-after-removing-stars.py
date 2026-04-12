@@ -1,13 +1,29 @@
-class Solution:
-    def clearStars(self, s: str) -> str:
-        cnt = [[] for _ in range(26)]
-        arr = list(s)
-        for i, c in enumerate(arr):
-            if c != "*":
-                cnt[ord(c) - ord("a")].append(i)
+class Solution(object):
+    def clearStars(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        stack = []
+        for i in range(26):
+            stack.append([])
+
+        removed = [False] * len(s)
+
+        for i, ch in enumerate(s):
+            if ch != '*':
+                stack[ord(ch) - ord('a')].append(i)
             else:
-                for j in range(26):
-                    if cnt[j]:
-                        arr[cnt[j].pop()] = "*"
+                removed[i] = True
+                for c in range(26):
+                    if stack[c]:
+                        idx = stack[c].pop()
+                        removed[idx] = True
                         break
-        return "".join(c for c in arr if c != "*")  
+
+        result = []
+        for i, ch in enumerate(s):
+            if not removed[i]:
+                result.append(ch)
+
+        return "".join(result)
