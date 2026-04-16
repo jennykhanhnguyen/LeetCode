@@ -13,9 +13,10 @@ class Solution:
         dirr = [0,1,-1,0]
         dirc = [1,0,0,-1]
 
+
+
         while heap:
             time, r, c, nextCost = heapq.heappop(heap)
-            time = time*(-1)
 
             if time > dist[r][c][nextCost]:
                 continue
@@ -23,7 +24,8 @@ class Solution:
             for i in range(4):
                 newr = r + dirr[i]
                 newc = c + dirc[i]
-                if newr < 0 or newr > n-1 or newc < 0 or newc > m-1:
+
+                if newr < 0 or newr >= n or newc < 0 or newc >= m:
                     continue
 
                 newTime = max(time, moveTime[newr][newc]) + nextCost
@@ -31,8 +33,7 @@ class Solution:
 
                 if newTime < dist[newr][newc][nextNextCost]:
                     dist[newr][newc][nextNextCost] = newTime
-                    newTime = newTime*(-1)
-                    heapq.heappush(heap,(newTime, newr, newc, nextNextCost))
+                    heapq.heappush(heap, (newTime, newr, newc, nextNextCost))
 
         answer = min(dist[n-1][m-1][1], dist[n-1][m-1][2])
         return answer
