@@ -15,7 +15,9 @@ class Solution:
                 continue
             if start >= current_start and start < current_end:
                 continue
-            # print(current_start, current_end, start, end)
+            if start < current_start:
+                continue
+            # print(current_start, current_end, start, end, ans)
             current_end = end
             ans += 1
         return len(intervals) - ans
