@@ -8,7 +8,7 @@ class RandomizedCollection:
 
     def insert(self, val: int) -> bool:
         boolean = True
-        if val in self.hm:
+        if val in self.hm and len(self.hm[val]) != 0:
             boolean = False
         self.lst.append(val)
         self.hm[val].add(len(self.lst)-1)
@@ -18,11 +18,15 @@ class RandomizedCollection:
     def remove(self, val: int) -> bool:
         if val not in self.hm or len(self.hm[val]) == 0 or len(self.lst) == 0:
             return False
+        if len(self.lst) == 1:
+            self.hm[self.lst[-1]].pop()
+            self.lst.pop()
+            return True
         index_rm = self.hm[val].pop()
         last_num = self.lst[-1] 
         index_last_num = len(self.lst) -1
         self.lst[-1], self.lst[index_rm] = self.lst[index_rm],self.lst[-1]
-        print(self.hm[last_num])
+        print(last_num,self.hm[last_num])
         self.hm[last_num].remove(index_last_num)
         self.hm[last_num].add(index_rm)
         self.lst.pop()
