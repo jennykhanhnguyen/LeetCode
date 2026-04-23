@@ -23,9 +23,9 @@ class RandomizedCollection:
         index_last_num = len(self.lst) -1
         self.lst[-1], self.lst[index_rm] = self.lst[index_rm],self.lst[-1]
         print(self.hm[last_num])
-        # self.hm[last_num].remove(index_last_num)
-        # self.hm[last_num].add(index_rm)
-        # self.lst.pop()
+        self.hm[last_num].remove(index_last_num)
+        self.hm[last_num].add(index_rm)
+        self.lst.pop()
         return True
 
     def getRandom(self) -> int:
