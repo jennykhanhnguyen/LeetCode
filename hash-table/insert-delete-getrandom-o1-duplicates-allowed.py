@@ -12,7 +12,7 @@ class RandomizedCollection:
             boolean = False
         self.lst.append(val)
         self.hm[val].add(len(self.lst)-1)
-        print(val, self.hm)
+        # print(val, self.hm)
         return boolean
 
     def remove(self, val: int) -> bool:
@@ -25,10 +25,12 @@ class RandomizedCollection:
         index_rm = self.hm[val].pop()
         last_num = self.lst[-1] 
         index_last_num = len(self.lst) -1
-        self.lst[-1], self.lst[index_rm] = self.lst[index_rm],self.lst[-1]
-        print(last_num,self.hm[last_num])
-        self.hm[last_num].remove(index_last_num)
-        self.hm[last_num].add(index_rm)
+        if index_rm != index_last_num:
+            self.lst[-1], self.lst[index_rm] = self.lst[index_rm],self.lst[-1]
+
+            # print(index_rm, last_num, index_last_num, self.hm[last_num], self.hm)
+            self.hm[last_num].remove(index_last_num)
+            self.hm[last_num].add(index_rm)
         self.lst.pop()
         return True
 
