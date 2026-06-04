@@ -17,6 +17,8 @@ class SnapshotArray:
     def get(self, index: int, snap_id: int) -> int:
         # binary search
         position = bisect.bisect_right(self.dct[index], (snap_id, float("inf"))) - 1
+        if position == -1:
+            return 0
         return self.dct[index][position][1]
 
 
